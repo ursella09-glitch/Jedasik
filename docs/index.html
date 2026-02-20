@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Jedasik - Quiz Mode</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 8px;
+      background: #4facfe;
+      color: white;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #00c6ff;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2 id="question">Loading...</h2>
+  <div id="answers"></div>
+  <p id="result"></p>
+</div>
+
+<script>
+const quiz = [
+  {
+    question: "Siapa penemu lampu pijar?",
+    answers: ["Albert Einstein", "Thomas Edison", "Isaac Newton", "Nikola Tesla"],
+    correct: 1
+  },
+  {
+    question: "Ibukota Jepang adalah?",
+    answers: ["Seoul", "Beijing", "Tokyo", "Bangkok"],
+    correct: 2
+  },
+  {
+    question: "Hasil dari 12 x 8 adalah?",
+    answers: ["96", "88", "108", "92"],
+    correct: 0
+  },
+  {
+    question: "Planet terbesar di tata surya adalah?",
+    answers: ["Bumi", "Mars", "Jupiter", "Saturnus"],
+    correct: 2
+  }
+];
+
+let current = 0;
+
+function loadQuestion() {
+  document.getElementById("result").innerText = "";
+  const q = quiz[current];
+  document.getElementById("question").innerText = q.question;
+  const answersDiv = document.getElementById("answers");
+  answersDiv.innerHTML = "";
+
+  q.answers.forEach((answer, index) => {
+    const btn = document.createElement("button");
+    btn.innerText = answer;
+    btn.onclick = () => checkAnswer(index);
+    answersDiv.appendChild(btn);
+  });
+}
+
+function checkAnswer(index) {
+  if (index === quiz[current].correct) {
+    document.getElementById("result").innerText = "✅ Benar!";
+  } else {
+    document.getElementById("result").innerText = "❌ Salah!";
+  }
+
+  setTimeout(() => {
+    current++;
+    if (current < quiz.length) {
+      loadQuestion();
+    } else {
+      document.querySelector(".card").innerHTML = "<h2>Game Selesai 🎉</h2><p>Keren! Kamu sudah jeda dari scroll dan upgrade otak </p>";
+    }
+  }, 1000);
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
